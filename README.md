@@ -1,21 +1,152 @@
-<h1 align="center">Hi 👋, we are Ahmed Gamal, begad, Youssef Bassiouny, Mostafa Nasser, Mohammed Amr</h1>
-<h3 align="center">Project Data Science and Ai</h3>
+# Car Sales Forecasting and Optimization
 
-<p align="left"> <img src="https://komarev.com/ghpvc/?username=sales-forcasting-and-optmization&label=Profile%20views&color=0e75b6&style=flat" alt="sales-forcasting-and-optmization" /> </p>
+## Project Overview
+This project aims to build a robust forecasting model that helps businesses predict future car sales trends. The project is divided into four milestones, each focusing on a different aspect of the data science pipeline.
 
-- 🔭 we currently working on **Sales Forecasting and Optimization**
+## Team Members
+- Ahmed Gamal
+- Begad
+- Youssef Bassiouny
+- Mostafa Nasser
+- Mohammed Amr
 
-- 🌱 we currently learning **Model Configuration and ML**
+## Project Structure
+```
+├── Milestone1/                    # Data Collection and Cleaning
+│   ├── Car_sales_CleanData.csv    # Cleaned dataset
+│   ├── Report exploration.doc     # Data exploration report
+│   └── CarSales Data collection ,exploration ,cleaning.ipynb
+│
+├── MileStone2/                    # Data Analysis and Visualization
+│   ├── Data Analysis and Visualization.ipynb
+│   ├── DashBoard.ipynb
+│   ├── Cars-sales-visual.pbix
+│   └── milestone2.pdf
+│
+├── Milestone3/                    # Model Development
+│   ├── Forecasting Model Development and Optimization.ipynb
+│   ├── Random_Forest_Regressor.pkl
+│   ├── income-model.ipynb
+│   └── Forecasting Model Performance Report.docx
+│
+└── Milestone4/                    # Deployment
+    ├── deployment/
+    │   ├── backend/              # FastAPI backend
+    │   │   ├── main.py
+    │   │   ├── config.py
+    │   │   ├── models/
+    │   │   ├── services/
+    │   │   └── routers/
+    │   ├── frontend/            # Streamlit frontend
+    │   │   ├── app.py
+    │   │   ├── config.py
+    │   │   ├── components/
+    │   │   └── services/
+    │   └── requirements.txt
+    └── Deployments.ipynb
+```
 
-- 👯 we looking to collaborate on **Build a robust forecasting model that helps businesses predict future sales trends**
+## Milestones
 
-- 💬 Ask our about **Data Science, Data Analysis, Database, Python, Sql**
+### Milestone 1: Data Collection and Cleaning
+- Collected car sales data with features including:
+  - Car details (make, model, engine, transmission, etc.)
+  - Customer information (gender, annual income)
+  - Sales information (price, date, dealer details)
+- Performed data cleaning and preprocessing
+- Created a clean dataset for analysis
 
-- 📫 How to reach the Team **https://github.com/AhmedGamall-1, https://github.com/youssef-113, https://github.com/MustafaNasser005, https://github.com/mohamedamr21c**
+### Milestone 2: Data Analysis and Visualization
+- Conducted exploratory data analysis
+- Created interactive dashboards
+- Visualized sales trends and patterns
+- Analyzed relationships between features
+- Generated insights for business decisions
 
-<h3 align="left">Connect with me:</h3>
-<p align="left">
-</p>
+### Milestone 3: Model Development and Optimization
+- Developed multiple forecasting models:
+  - Random Forest Regressor
+  - XGBoost
+  - Decision Tree
+- Performed feature engineering
+- Optimized model parameters
+- Evaluated model performance using:
+  - R² (R-squared)
+  - MAE (Mean Absolute Error)
+  - RMSE (Root Mean Square Error)
+- Selected Random Forest as the best performing model
 
-<h3 align="left">Languages and Tools:</h3>
-<p align="left"> <a href="https://canvasjs.com" target="_blank" rel="noreferrer"> <img src="https://raw.githubusercontent.com/Hardik0307/Hardik0307/master/assets/canvasjs-charts.svg" alt="canvasjs" width="40" height="40"/> </a> <a href="https://www.chartjs.org" target="_blank" rel="noreferrer"> <img src="https://www.chartjs.org/media/logo-title.svg" alt="chartjs" width="40" height="40"/> </a> <a href="https://git-scm.com/" target="_blank" rel="noreferrer"> <img src="https://www.vectorlogo.zone/logos/git-scm/git-scm-icon.svg" alt="git" width="40" height="40"/> </a> <a href="https://www.java.com" target="_blank" rel="noreferrer"> <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/java/java-original.svg" alt="java" width="40" height="40"/> </a> <a href="https://www.mongodb.com/" target="_blank" rel="noreferrer"> <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/mongodb/mongodb-original-wordmark.svg" alt="mongodb" width="40" height="40"/> </a> <a href="https://www.microsoft.com/en-us/sql-server" target="_blank" rel="noreferrer"> <img src="https://www.svgrepo.com/show/303229/microsoft-sql-server-logo.svg" alt="mssql" width="40" height="40"/> </a> <a href="https://www.mysql.com/" target="_blank" rel="noreferrer"> <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/mysql/mysql-original-wordmark.svg" alt="mysql" width="40" height="40"/> </a> <a href="https://www.oracle.com/" target="_blank" rel="noreferrer"> <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/oracle/oracle-original.svg" alt="oracle" width="40" height="40"/> </a> <a href="https://pandas.pydata.org/" target="_blank" rel="noreferrer"> <img src="https://raw.githubusercontent.com/devicons/devicon/2ae2a900d2f041da66e950e4d48052658d850630/icons/pandas/pandas-original.svg" alt="pandas" width="40" height="40"/> </a> <a href="https://www.python.org" target="_blank" rel="noreferrer"> <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/python/python-original.svg" alt="python" width="40" height="40"/> </a>  <a href="https://scikit-learn.org/" target="_blank" rel="noreferrer"> <img src="https://upload.wikimedia.org/wikipedia/commons/0/05/Scikit_learn_logo_small.svg" alt="scikit_learn" width="40" height="40"/> </a> <a href="https://seaborn.pydata.org/" target="_blank" rel="noreferrer"> <img src="https://seaborn.pydata.org/_images/logo-mark-lightbg.svg" alt="seaborn" width="40" height="40"/> </a> <a href="https://www.sqlite.org/" target="_blank" rel="noreferrer"> <img src="https://www.vectorlogo.zone/logos/sqlite/sqlite-icon.svg" alt="sqlite" width="40" height="40"/> </a> </p>
+### Milestone 4: Deployment
+- Created a FastAPI backend with:
+  - Model prediction endpoint
+  - Input validation
+  - Error handling
+  - API documentation
+- Developed a Streamlit frontend with:
+  - User-friendly interface
+  - Real-time predictions
+  - Visual feedback
+  - Error handling
+
+## Features
+- Car price prediction based on multiple features
+- Interactive web interface
+- Real-time predictions
+- Comprehensive data analysis
+- Model performance monitoring
+- API documentation
+
+## Technologies Used
+- Python
+- FastAPI
+- Streamlit
+- Pandas
+- NumPy
+- Scikit-learn
+- XGBoost
+- Matplotlib
+- Seaborn
+- Power BI
+
+## Setup and Installation
+
+1. Clone the repository:
+```bash
+git clone [repository-url]
+```
+
+2. Create a virtual environment:
+```bash
+python -m venv venv
+source venv/bin/activate  # On Windows: venv\Scripts\activate
+```
+
+3. Install dependencies:
+```bash
+pip install -r Milestone4/deployment/requirements.txt
+```
+
+4. Run the application:
+```bash
+# Start the backend
+cd Milestone4/deployment/backend
+python main.py
+
+# Start the frontend (in a new terminal)
+cd Milestone4/deployment/frontend
+streamlit run app.py
+```
+
+## API Documentation
+Once the backend is running, access the API documentation at:
+- Swagger UI: http://localhost:8000/docs
+- ReDoc: http://localhost:8000/redoc
+
+## Frontend
+The web interface is available at: http://localhost:8501
+
+## Contributing
+Contributions are welcome! Please feel free to submit a Pull Request.
+
+## License
+This project is licensed under the MIT License - see the LICENSE file for details.
