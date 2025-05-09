@@ -113,9 +113,9 @@ def main():
     periods = st.sidebar.slider("Days to forecast", 7, 60, 30)
 
     # load models
-    prophet_model = load_model("./Models/prophet_model.pkl")
-    xgb_model = load_model("./Models/xgb_forcasting_model.pkl") if model_choice=="XGBoost" else None
-    arima_model = load_model("./Models/arima_model.pkl") if model_choice in ["ARIMA"] else None
+    prophet_model = load_model("Milestone4/dep2/main/Models/prophet_model.pkl")
+    xgb_model = load_model("Milestone4/dep2/main/Models/xgb_forcasting_model.pkl") if model_choice=="XGBoost" else None
+    arima_model = load_model("Milestone4/dep2/main/Models/arima_model.pkl") if model_choice in ["ARIMA"] else None
 
     # compute forecast
     if model_choice=="Prophet":
