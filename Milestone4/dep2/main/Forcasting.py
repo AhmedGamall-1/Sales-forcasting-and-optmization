@@ -15,7 +15,7 @@ st.title("🚗 Car Price Forecasting 🚗")
 
 # --- Caching utilities ---
 @st.cache_data
-def load_data(path: str = "./Data/Car_sales_Cleand.csv") -> pd.DataFrame:
+def load_data(path: str = "Milestone4/dep2/main/Data/Car_sales_Cleand.csv") -> pd.DataFrame:
     df = pd.read_csv(path, parse_dates=["Date"] )
     # aggregate duplicates by date
     df = df.groupby("Date")["Price ($)"].mean().reset_index()
