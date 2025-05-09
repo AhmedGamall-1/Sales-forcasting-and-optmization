@@ -1,0 +1,3 @@
+run predict_arima.py
+
+python predict_arima.py --model_path "file:///C:/Users/QUANTUM/Desktop/mlflow%20project/mlruns/599428370068404043/9191a18e87a84884829615d2ed6b4126/artifacts/model" --steps 10
