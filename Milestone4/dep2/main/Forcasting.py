@@ -7,7 +7,7 @@ import plotly.graph_objects as go
 from prophet import Prophet
 from xgboost import XGBRegressor
 from sklearn.metrics import mean_squared_error
-from pmdarima import auto_arima
+from statsmodels.tsa.arima.model import ARIMA
 
 # --- Configuration ---
 st.set_page_config(page_title="Car Price Forecasting", page_icon="📈", layout="wide")
@@ -76,26 +76,28 @@ def stat_forecast(model, df: pd.DataFrame, periods: int) -> pd.DataFrame:
 
     # attempt forecast with existing model
     try:
-        f = model.get_forecast(steps=periods)
-        mean = f.predicted_mean
-        ci   = f.conf_int()
-        return pd.DataFrame({
-            "ds":         mean.index,
-            "yhat":       mean.values,
-            "yhat_lower": ci.iloc[:,0],
-            "yhat_upper": ci.iloc[:,1]
-        })
-    except Exception:
-        # underfitting fallback: refit ARIMA on full series with auto_arima
-        arima_opt = auto_arima(series, seasonal=False, stepwise=True, suppress_warnings=True)
-        forecast  = arima_opt.predict(n_periods=periods)
+        forecast = model.forecast(steps=periods)
         idx = pd.date_range(
             start=series.index[-1] + pd.Timedelta(days=1),
             periods=periods,
             freq="D"
         )
         return pd.DataFrame({
-            "ds":   idx,
+            "ds": idx,
+            "yhat": forecast
+        })
+    except Exception:
+        # underfitting fallback: fit new ARIMA model
+        model = ARIMA(series, order=(5,1,0))  # Default to ARIMA(5,1,0)
+        model_fit = model.fit()
+        forecast = model_fit.forecast(steps=periods)
+        idx = pd.date_range(
+            start=series.index[-1] + pd.Timedelta(days=1),
+            periods=periods,
+            freq="D"
+        )
+        return pd.DataFrame({
+            "ds": idx,
             "yhat": forecast
         })
 
