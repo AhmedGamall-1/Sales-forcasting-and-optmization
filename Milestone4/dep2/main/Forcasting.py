@@ -27,7 +27,20 @@ def load_model(filename: str) -> any:
     if not os.path.exists(filename):
         st.error(f"Model file not found: {filename}")
         st.stop()
-    return joblib.load(filename)
+    try:
+        return joblib.load(filename)
+    except Exception as e:
+        st.error(f"Error loading model: {e}")
+        st.info("Retraining model with statsmodels...")
+        # Retrain the model if loading fails
+        df = load_data()
+        series = df.groupby("Date")["Price ($)"].mean()
+        series = series.asfreq("D").fillna(method="ffill")
+        model = ARIMA(series, order=(5,1,0))
+        model_fit = model.fit()
+        # Save the new model
+        joblib.dump(model_fit, filename)
+        return model_fit
 
 # --- Forecasting Functions ---
 def prophet_forecast(model, periods: int) -> pd.DataFrame:
