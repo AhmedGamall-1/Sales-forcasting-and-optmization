@@ -1,3 +1,9 @@
+g++ 
+gcc 
+gfortran 
+build-essential 
 libatlas-base-dev
-gfortran
-build-essential
+liblapack-dev 
+libblas-dev 
+libffi-dev
+
