@@ -20,9 +20,8 @@ MODEL_PATH = BASE_DIR / "Models" / "Random_Forest_Regressor.pkl"
 def load_data() -> pd.DataFrame:
     df = pd.read_csv(DATA_PATH, parse_dates=["Date"])
     df = df.sort_values("Date").reset_index(drop=True)
-    # Extract year from Date if Year column doesn't exist
-    if "Year" not in df.columns:
-        df["Year"] = df["Date"].dt.year
+    # Print column names for debugging
+    st.write("Available columns:", df.columns.tolist())
     return df
 
 @st.cache_resource
@@ -54,8 +53,8 @@ engine = st.selectbox(
     df["Engine"].astype(str).unique().tolist()
 )
 
-# Get unique years from Date column if Year column doesn't exist
-years = sorted(df["Year"].unique()) if "Year" in df.columns else sorted(df["Date"].dt.year.unique())
+# Get years from Date column
+years = sorted(df["Date"].dt.year.unique())
 year = st.selectbox("Year", years)
 transmission = st.selectbox("Transmission", df["Transmission"].unique())
 body_style   = st.selectbox("Body Style", df["Body Style"].unique())
