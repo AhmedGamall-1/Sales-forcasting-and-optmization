@@ -1,4 +1,4 @@
-plotly.graph_objects
+plotly
 XGBRegressor
 streamlit
 pandas
