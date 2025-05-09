@@ -152,17 +152,36 @@ categorical_cols = ['Engine', 'model', 'Body Style', 'Company', 'Transmission',
                    'PI_plus_model', 'Holiday']
 
 # Create a DataFrame with all possible categorical values
+# First, create all possible combinations
+engine_model_combos = [f"{e}_{m}" for e in engine_types for m in models]
+pi_model_combos = [f"{p}_{m}" for p in [0.5, 1.0, 1.5] for m in models]
+
+# Calculate the maximum length needed
+max_length = max(
+    len(engine_types),
+    len(models),
+    len(["Sedan", "SUV", "Truck", "Coupe", "Hatchback"]),
+    len(["Toyota", "Honda", "Ford", "BMW", "Mercedes"]),
+    len(["Automatic", "Manual"]),
+    len(["North", "South", "East", "West"]),
+    len(["Low", "Medium", "High"]),
+    len(engine_model_combos),
+    len(pi_model_combos),
+    len(["No", "Yes"])
+)
+
+# Create lists of the same length
 all_categories = pd.DataFrame({
-    'Engine': engine_types * 2,  # Duplicate to match length
-    'model': models * 2,  # Duplicate to match length
-    'Body Style': ["Sedan", "SUV", "Truck", "Coupe", "Hatchback"] * 2,
-    'Company': ["Toyota", "Honda", "Ford", "BMW", "Mercedes"] * 2,
-    'Transmission': ["Automatic", "Manual"] * 5,
-    'carsales Region': ["North", "South", "East", "West"] * 2,
-    'Income_Bracket': ["Low", "Medium", "High"] * 3,
-    'Engine_to_Model': [f"{e}_{m}" for e in engine_types for m in models],
-    'PI_plus_model': [f"{p}_{m}" for p in [0.5, 1.0, 1.5] for m in models],
-    'Holiday': ["No", "Yes"] * 5
+    'Engine': (engine_types * (max_length // len(engine_types) + 1))[:max_length],
+    'model': (models * (max_length // len(models) + 1))[:max_length],
+    'Body Style': (["Sedan", "SUV", "Truck", "Coupe", "Hatchback"] * (max_length // 5 + 1))[:max_length],
+    'Company': (["Toyota", "Honda", "Ford", "BMW", "Mercedes"] * (max_length // 5 + 1))[:max_length],
+    'Transmission': (["Automatic", "Manual"] * (max_length // 2 + 1))[:max_length],
+    'carsales Region': (["North", "South", "East", "West"] * (max_length // 4 + 1))[:max_length],
+    'Income_Bracket': (["Low", "Medium", "High"] * (max_length // 3 + 1))[:max_length],
+    'Engine_to_Model': (engine_model_combos * (max_length // len(engine_model_combos) + 1))[:max_length],
+    'PI_plus_model': (pi_model_combos * (max_length // len(pi_model_combos) + 1))[:max_length],
+    'Holiday': (["No", "Yes"] * (max_length // 2 + 1))[:max_length]
 })
 
 # One-hot encode both the input and all possible categories
