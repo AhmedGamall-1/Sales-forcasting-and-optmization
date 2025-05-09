@@ -151,8 +151,28 @@ categorical_cols = ['Engine', 'model', 'Body Style', 'Company', 'Transmission',
                    'carsales Region', 'Income_Bracket', 'Engine_to_Model', 
                    'PI_plus_model', 'Holiday']
 
-# One-hot encode categorical variables
+# Create a DataFrame with all possible categorical values
+all_categories = pd.DataFrame({
+    'Engine': engine_types,
+    'model': models,
+    'Body Style': ["Sedan", "SUV", "Truck", "Coupe", "Hatchback"],
+    'Company': ["Toyota", "Honda", "Ford", "BMW", "Mercedes"],
+    'Transmission': ["Automatic", "Manual"],
+    'carsales Region': ["North", "South", "East", "West"],
+    'Income_Bracket': ["Low", "Medium", "High"],
+    'Engine_to_Model': [f"{e}_{m}" for e in engine_types for m in models],
+    'PI_plus_model': [f"{p}_{m}" for p in [0.5, 1.0, 1.5] for m in models],
+    'Holiday': ["No", "Yes"]
+})
+
+# One-hot encode both the input and all possible categories
 X_dummies = pd.get_dummies(X_raw, columns=categorical_cols)
+all_dummies = pd.get_dummies(all_categories, columns=categorical_cols)
+
+# Ensure all possible feature combinations exist
+for col in all_dummies.columns:
+    if col not in X_dummies.columns:
+        X_dummies[col] = 0
 
 # If model recorded feature names, use them to subset/reorder
 if feature_names_in is not None:
@@ -178,3 +198,5 @@ if st.button("🔮 Predict Price"):
         st.write("Debug info:")
         st.write("Input shape:", X_proc.shape)
         st.write("Model feature count:", n_features_in)
+        st.write("Available features:", X_dummies.columns.tolist())
+        st.write("Expected features:", feature_names_in)
