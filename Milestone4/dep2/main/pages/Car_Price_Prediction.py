@@ -42,7 +42,7 @@ model, feature_names_in, n_features_in = load_model()
 st.subheader("Enter Car Features for Prediction")
 
 # Check if required columns exist
-required_columns = ["Annual Income", "Engine", "Transmission", "Body Style", "Company", "Dealer_Region", "Month"]
+required_columns = ["Annual Income", "Engine", "Body Style", "Company"]
 missing_columns = [col for col in required_columns if col not in df.columns]
 if missing_columns:
     st.error(f"Missing required columns: {missing_columns}")
@@ -64,31 +64,18 @@ engine = st.selectbox(
 years = sorted(df["Date"].dt.year.unique())
 year = st.selectbox("Year", years)
 
-# Only show these inputs if the columns exist
-if "Transmission" in df.columns:
-    transmission = st.selectbox("Transmission", df["Transmission"].unique())
-else:
-    transmission = st.selectbox("Transmission", ["Automatic", "Manual"])  # Default options
+# Use default options for missing columns
+transmission = st.selectbox("Transmission", ["Automatic", "Manual"])
 
-if "Body Style" in df.columns:
-    body_style = st.selectbox("Body Style", df["Body Style"].unique())
-else:
-    body_style = st.selectbox("Body Style", ["Sedan", "SUV", "Hatchback", "Coupe"])  # Default options
+body_style = st.selectbox("Body Style", df["Body Style"].unique())
 
-if "Company" in df.columns:
-    company = st.selectbox("Company", df["Company"].unique())
-else:
-    company = st.selectbox("Company", ["Toyota", "Honda", "Ford", "BMW"])  # Default options
+company = st.selectbox("Company", df["Company"].unique())
 
-if "Dealer_Region" in df.columns:
-    dealer_reg = st.selectbox("carsales Region", df["Dealer_Region"].unique())
-else:
-    dealer_reg = st.selectbox("carsales Region", ["North", "South", "East", "West"])  # Default options
+# Use default regions
+dealer_reg = st.selectbox("carsales Region", ["North", "South", "East", "West"])
 
-if "Month" in df.columns:
-    month = st.selectbox("Month", df["Month"].unique())
-else:
-    month = st.selectbox("Month", range(1, 13))  # Default to months 1-12
+# Get month from Date column
+month = st.selectbox("Month", range(1, 13))
 
 is_weekend = st.selectbox("Is Weekend", ["No","Yes"])
 is_weekend_flag = 1 if is_weekend=="Yes" else 0
@@ -104,15 +91,15 @@ price_to_income = st.number_input(
 # ─── Build raw DataFrame ────────────────────────────────────────────────────────
 input_dict = {
     "Annual Income": annual_income,
-    "Engine":         engine,
-    "Year":           year,
-    "Transmission":   transmission,
-    "Body Style":     body_style,
-    "Company":        company,
-    "carsales Region":  dealer_reg,
-    "Month":          month,
-    "Is_Weekend":     is_weekend,
-    "Price_to_Income":price_to_income
+    "Engine": engine,
+    "Year": year,
+    "Transmission": transmission,
+    "Body Style": body_style,
+    "Company": company,
+    "carsales Region": dealer_reg,
+    "Month": month,
+    "Is_Weekend": is_weekend,
+    "Price_to_Income": price_to_income
 }
 X_raw = pd.DataFrame([input_dict])
 st.subheader("Input Features")
