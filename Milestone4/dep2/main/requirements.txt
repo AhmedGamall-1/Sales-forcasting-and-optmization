@@ -1,5 +1,4 @@
 --find-links https://www.piwheels.org/simple
-pmdarima==1.8.5
 streamlit
 pandas
 numpy
@@ -8,5 +7,5 @@ prophet
 xgboost
 scikit-learn
 joblib
-statsmodels
+statsmodels==0.14.1
 
