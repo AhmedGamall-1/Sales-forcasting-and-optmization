@@ -1,13 +1,11 @@
 plotly
-XGBRegressor
 streamlit
 pandas
 numpy
-plotly
 prophet
 xgboost
 scikit-learn
 pmdarima
 joblib
 statsmodels
-xgboost
+
