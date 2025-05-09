@@ -153,16 +153,16 @@ categorical_cols = ['Engine', 'model', 'Body Style', 'Company', 'Transmission',
 
 # Create a DataFrame with all possible categorical values
 all_categories = pd.DataFrame({
-    'Engine': engine_types,
-    'model': models,
-    'Body Style': ["Sedan", "SUV", "Truck", "Coupe", "Hatchback"],
-    'Company': ["Toyota", "Honda", "Ford", "BMW", "Mercedes"],
-    'Transmission': ["Automatic", "Manual"],
-    'carsales Region': ["North", "South", "East", "West"],
-    'Income_Bracket': ["Low", "Medium", "High"],
+    'Engine': engine_types * 2,  # Duplicate to match length
+    'model': models * 2,  # Duplicate to match length
+    'Body Style': ["Sedan", "SUV", "Truck", "Coupe", "Hatchback"] * 2,
+    'Company': ["Toyota", "Honda", "Ford", "BMW", "Mercedes"] * 2,
+    'Transmission': ["Automatic", "Manual"] * 5,
+    'carsales Region': ["North", "South", "East", "West"] * 2,
+    'Income_Bracket': ["Low", "Medium", "High"] * 3,
     'Engine_to_Model': [f"{e}_{m}" for e in engine_types for m in models],
     'PI_plus_model': [f"{p}_{m}" for p in [0.5, 1.0, 1.5] for m in models],
-    'Holiday': ["No", "Yes"]
+    'Holiday': ["No", "Yes"] * 5
 })
 
 # One-hot encode both the input and all possible categories
