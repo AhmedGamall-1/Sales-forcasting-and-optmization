@@ -1,11 +1,12 @@
-plotly
+--find-links https://www.piwheels.org/simple
+pmdarima==1.8.5
 streamlit
 pandas
 numpy
+plotly
 prophet
 xgboost
 scikit-learn
-pmdarima==1.8.5
 joblib
 statsmodels
 
