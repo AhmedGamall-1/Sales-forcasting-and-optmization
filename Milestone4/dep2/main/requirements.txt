@@ -10,3 +10,4 @@ scikit-learn
 pmdarima
 joblib
 statsmodels
+xgboost
