@@ -41,6 +41,13 @@ model, feature_names_in, n_features_in = load_model()
 # ─── Input Controls (main canvas) ─────────────────────────────────────────────
 st.subheader("Enter Car Features for Prediction")
 
+# Check if required columns exist
+required_columns = ["Annual Income", "Engine", "Transmission", "Body Style", "Company", "Dealer_Region", "Month"]
+missing_columns = [col for col in required_columns if col not in df.columns]
+if missing_columns:
+    st.error(f"Missing required columns: {missing_columns}")
+    st.stop()
+
 annual_income = st.number_input(
     "Annual Income ($)",
     min_value=int(df["Annual Income"].min()),
@@ -56,11 +63,33 @@ engine = st.selectbox(
 # Get years from Date column
 years = sorted(df["Date"].dt.year.unique())
 year = st.selectbox("Year", years)
-transmission = st.selectbox("Transmission", df["Transmission"].unique())
-body_style   = st.selectbox("Body Style", df["Body Style"].unique())
-company      = st.selectbox("Company", df["Company"].unique())
-dealer_reg   = st.selectbox("carsales Region", df["Dealer_Region"].unique())
-month       = st.selectbox("Month", df["Month"].unique())
+
+# Only show these inputs if the columns exist
+if "Transmission" in df.columns:
+    transmission = st.selectbox("Transmission", df["Transmission"].unique())
+else:
+    transmission = st.selectbox("Transmission", ["Automatic", "Manual"])  # Default options
+
+if "Body Style" in df.columns:
+    body_style = st.selectbox("Body Style", df["Body Style"].unique())
+else:
+    body_style = st.selectbox("Body Style", ["Sedan", "SUV", "Hatchback", "Coupe"])  # Default options
+
+if "Company" in df.columns:
+    company = st.selectbox("Company", df["Company"].unique())
+else:
+    company = st.selectbox("Company", ["Toyota", "Honda", "Ford", "BMW"])  # Default options
+
+if "Dealer_Region" in df.columns:
+    dealer_reg = st.selectbox("carsales Region", df["Dealer_Region"].unique())
+else:
+    dealer_reg = st.selectbox("carsales Region", ["North", "South", "East", "West"])  # Default options
+
+if "Month" in df.columns:
+    month = st.selectbox("Month", df["Month"].unique())
+else:
+    month = st.selectbox("Month", range(1, 13))  # Default to months 1-12
+
 is_weekend = st.selectbox("Is Weekend", ["No","Yes"])
 is_weekend_flag = 1 if is_weekend=="Yes" else 0
 
