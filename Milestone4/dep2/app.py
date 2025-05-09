@@ -13,8 +13,10 @@ import os
 st.set_page_config(page_title="🚗 Sales Forecasting", page_icon="📈", layout="wide")
 st.title("🚗 Car Price Forecasting")
 st.markdown("""
-Welcome to the interactive dashboard for car price forecasting! Select a model, view forecasts belwo.
----
+Welcome to the interactive dashboard for car price forecasting 🚗
+""")
+st.markdown("""
+This dashboard allows you to forecast car prices using multiple models and visualize the results interactively. For best accuracy, use Prophet or XGBoost.
 """)
 
 # --- Sidebar ---
@@ -39,27 +41,7 @@ def prophet_forecast(df, periods):
     forecast = m.predict(future)
     return forecast[['ds', 'yhat']].tail(periods), forecast
 
-# --- LSTM Model (Load or Dummy) ---
-def lstm_forecast(df, periods):
-    scaler = MinMaxScaler()
-    scaled = scaler.fit_transform(df[['Price ($)']])
-    SEQ_LEN = 30
-    def create_sequences(data, seq_length):
-        X = []
-        for i in range(len(data) - seq_length):
-            X.append(data[i:i+seq_length])
-        return np.array(X)
-    last_seq = scaled[-SEQ_LEN:]
-    # Dummy: repeat last value (replace with real model for production)
-    preds = []
-    seq = last_seq.copy()
-    for _ in range(periods):
-        pred = seq[-1][0]
-        preds.append(pred)
-        seq = np.vstack([seq[1:], [[pred]]])
-    preds = scaler.inverse_transform(np.array(preds).reshape(-1,1)).flatten()
-    future_dates = pd.date_range(df['Date'].max() + pd.Timedelta(days=1), periods=periods)
-    return pd.DataFrame({'ds': future_dates, 'yhat': preds}), None
+
 
 # --- XGBoost Model ---
 def xgb_forecast(df, periods):
@@ -125,8 +107,6 @@ def sarima_forecast(df, periods):
 # --- Model Selection and Forecast ---
 if model_choice == "Prophet":
     forecast_df, _ = prophet_forecast(df, forecast_period)
-elif model_choice == "LSTM":
-    forecast_df, _ = lstm_forecast(df, forecast_period)
 elif model_choice == "XGBoost":
     forecast_df, _ = xgb_forecast(df, forecast_period)
 elif model_choice == "ARIMA":
