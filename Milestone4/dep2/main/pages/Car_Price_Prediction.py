@@ -60,13 +60,6 @@ model, feature_names_in, n_features_in = load_model()
 # ─── Input Controls (main canvas) ─────────────────────────────────────────────
 st.subheader("Enter Car Features for Prediction")
 
-# Check if required columns exist
-required_columns = ["Annual Income", "Engine", "Body Style", "Company"]
-missing_columns = [col for col in required_columns if col not in df.columns]
-if missing_columns:
-    st.error(f"Missing required columns: {missing_columns}")
-    st.stop()
-
 annual_income = st.number_input(
     "Annual Income ($)",
     min_value=int(df["Annual Income"].min()),
@@ -146,25 +139,32 @@ input_dict = {
     "Company_Strength": company_strength,
     "model": model,
     "Engine_to_Model": f"{engine}_{model}",
-    "PI_plus_model": f"{price_to_income}_{model}"
+    "PI_plus_model": f"{price_to_income}_{model}",
+    "Holiday": is_holiday
 }
 
 X_raw = pd.DataFrame([input_dict])
-st.subheader("Input Features")
-st.table(X_raw.T.rename(columns={0:"Value"}))
 
 # ─── Preprocess to match training ──────────────────────────────────────────────
-# one-hot encode raw
-X_dummies = pd.get_dummies(X_raw)
+# Create all possible categorical combinations
+categorical_cols = ['Engine', 'model', 'Body Style', 'Company', 'Transmission', 
+                   'carsales Region', 'Income_Bracket', 'Engine_to_Model', 
+                   'PI_plus_model', 'Holiday']
+
+# One-hot encode categorical variables
+X_dummies = pd.get_dummies(X_raw, columns=categorical_cols)
 
 # If model recorded feature names, use them to subset/reorder
 if feature_names_in is not None:
+    # Print available features for debugging
+    st.write("Available features after encoding:", X_dummies.columns.tolist())
+    st.write("Model expects features:", feature_names_in)
+    
     missing = set(feature_names_in) - set(X_dummies.columns)
     if missing:
         st.error(f"Cannot predict: missing features {missing}")
         st.stop()
     X_proc = X_dummies[feature_names_in]
-# Otherwise fall back to numeric slice
 else:
     X_proc = X_dummies.iloc[:, :n_features_in]
 
@@ -175,3 +175,6 @@ if st.button("🔮 Predict Price"):
         st.success(f"🛒 **Estimated Price:** ${pred:,.2f}")
     except Exception as e:
         st.error(f"Prediction failed: {e}")
+        st.write("Debug info:")
+        st.write("Input shape:", X_proc.shape)
+        st.write("Model feature count:", n_features_in)
