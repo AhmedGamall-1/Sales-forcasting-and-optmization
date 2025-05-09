@@ -7,7 +7,7 @@ numpy
 plotly
 prophet
 xgboost
-scikit‑learn
+scikit-learn
 pmdarima
 joblib
 statsmodels
