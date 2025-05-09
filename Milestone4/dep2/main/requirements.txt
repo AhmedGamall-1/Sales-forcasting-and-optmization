@@ -1,4 +1,3 @@
-os
 plotly.graph_objects
 XGBRegressor
 streamlit
