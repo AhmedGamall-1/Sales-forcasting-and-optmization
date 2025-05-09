@@ -5,7 +5,7 @@ numpy
 prophet
 xgboost
 scikit-learn
-pmdarima==2.0.3
+pmdarima==1.8.5
 joblib
 statsmodels
 
