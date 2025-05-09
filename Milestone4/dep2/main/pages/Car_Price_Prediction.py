@@ -35,6 +35,25 @@ def load_model():
     n_feat     = getattr(m, "n_features_in_", None)
     return m, feat_names, n_feat
 
+def create_income_bracket(income):
+    if income < 50000:
+        return "Low"
+    elif income < 100000:
+        return "Medium"
+    else:
+        return "High"
+
+def get_seasonal_index(month):
+    # Simple seasonal index based on month
+    if month in [12, 1, 2]:  # Winter
+        return 0.9
+    elif month in [3, 4, 5]:  # Spring
+        return 1.0
+    elif month in [6, 7, 8]:  # Summer
+        return 1.1
+    else:  # Fall
+        return 0.95
+
 df = load_data()
 model, feature_names_in, n_features_in = load_model()
 
@@ -55,21 +74,27 @@ annual_income = st.number_input(
     value=int(df["Annual Income"].median())
 )
 
-engine = st.selectbox(
-    "Engine (type)",
-    df["Engine"].astype(str).unique().tolist()
-)
+# Create income bracket
+income_bracket = create_income_bracket(annual_income)
+
+# Engine selection
+engine_types = ["V6", "V8", "I4", "I6", "Electric"]
+engine = st.selectbox("Engine (type)", engine_types)
 
 # Get years from Date column
 years = sorted(df["Date"].dt.year.unique())
 year = st.selectbox("Year", years)
 
+# Model selection
+models = ["Sedan", "SUV", "Truck", "Coupe", "Hatchback"]
+model = st.selectbox("Model", models)
+
 # Use default options for missing columns
 transmission = st.selectbox("Transmission", ["Automatic", "Manual"])
 
-body_style = st.selectbox("Body Style", df["Body Style"].unique())
+body_style = st.selectbox("Body Style", ["Sedan", "SUV", "Truck", "Coupe", "Hatchback"])
 
-company = st.selectbox("Company", df["Company"].unique())
+company = st.selectbox("Company", ["Toyota", "Honda", "Ford", "BMW", "Mercedes"])
 
 # Use default regions
 dealer_reg = st.selectbox("carsales Region", ["North", "South", "East", "West"])
@@ -77,8 +102,14 @@ dealer_reg = st.selectbox("carsales Region", ["North", "South", "East", "West"])
 # Get month from Date column
 month = st.selectbox("Month", range(1, 13))
 
+# Calculate seasonal price index
+seasonal_index = get_seasonal_index(month)
+
 is_weekend = st.selectbox("Is Weekend", ["No","Yes"])
 is_weekend_flag = 1 if is_weekend=="Yes" else 0
+
+is_holiday = st.selectbox("Is Holiday", ["No","Yes"])
+is_holiday_flag = 1 if is_holiday=="Yes" else 0
 
 price_to_income = st.number_input(
     "Price_to_Income Ratio",
@@ -87,6 +118,15 @@ price_to_income = st.number_input(
     value=1.0,
     step=0.01
 )
+
+# Company strength (simplified)
+company_strength = {
+    "Toyota": 0.8,
+    "Honda": 0.7,
+    "Ford": 0.6,
+    "BMW": 0.9,
+    "Mercedes": 0.9
+}[company]
 
 # ─── Build raw DataFrame ────────────────────────────────────────────────────────
 input_dict = {
@@ -98,9 +138,17 @@ input_dict = {
     "Company": company,
     "carsales Region": dealer_reg,
     "Month": month,
-    "Is_Weekend": is_weekend,
-    "Price_to_Income": price_to_income
+    "Is_Weekend": is_weekend_flag,
+    "Is_Holiday": is_holiday_flag,
+    "Price_to_Income": price_to_income,
+    "Income_Bracket": income_bracket,
+    "Seasonal_Price_Index": seasonal_index,
+    "Company_Strength": company_strength,
+    "model": model,
+    "Engine_to_Model": f"{engine}_{model}",
+    "PI_plus_model": f"{price_to_income}_{model}"
 }
+
 X_raw = pd.DataFrame([input_dict])
 st.subheader("Input Features")
 st.table(X_raw.T.rename(columns={0:"Value"}))
